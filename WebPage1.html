@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suggest Outfit</title>
+    <script src="https://cdn.jsdelivr.net/npm/@openai/api-key@0.3.0/build/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@openai/models@0.4.4-rc.0/build/index.js"></script>
+    <script>
+		var openai = require('@openai/api-key');
+        var api_key = 'Write Your API Key';
+
+		function suggestOutfit() {
+			var userInput = document.getElementById("userInput").value;
+
+			const prompt = `Suggest an outfit for ${userInput}`;
+
+			const completions = await openai.completions.create({
+			  engine: 'davinci',
+			  prompt: prompt,
+			  maxTokens: 60,
+			  n: 1,
+			  stop: '\n'
+			}, api_key);
+
+			const suggestion = completions.choices[0].text.trim();
+
+			document.getElementById("output").innerHTML = suggestion;
+		}
+    </script>
+</head>
+<body>
+    <h1>Suggest Outfit</h1>
+    <p>Enter what you have as clothes:</p>
+    <input type="text" id="userInput"><br><br>
+    <button type="submit" onclick="suggestOutfit()">Suggest outfit</button>
+    <br><br>
+    <div id="output"></div>
+</body>
+</html>
